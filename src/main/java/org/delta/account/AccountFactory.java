@@ -18,7 +18,7 @@ public class AccountFactory {
                     new StudentAccount(accountService.generateAccountNumber(), person, balance);
             case SAVINGS ->
                     new SavingAccount(accountService.generateAccountNumber(), person, balance);
-        };;
+        };
 
         accountService.addAccount(account);
 
