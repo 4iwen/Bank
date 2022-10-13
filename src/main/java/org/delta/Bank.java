@@ -13,6 +13,7 @@ import org.delta.person.PersonFactory;
 import org.delta.serialization.AccountDeserializer;
 import org.delta.serialization.AccountJsonSerializationObject;
 import org.delta.serialization.AccountJsonSerializationObjectFactory;
+import org.delta.serialization.GsonSerializationService;
 import org.delta.storage.FileSystemStorage;
 import org.delta.storage.Storage;
 
@@ -51,6 +52,9 @@ public class Bank {
     @Inject
     private FileSystemStorage fileSystemStorage;
 
+    @Inject
+    private GsonSerializationService gsonSerializationService;
+
     public void registerActions() {
         this.actionListener.registerAction(MenuChoices.HELP, new HelpAction());
         this.actionListener.registerAction(MenuChoices.DETAIL, new HelpAction());
@@ -68,6 +72,8 @@ public class Bank {
 
         while (true) {
             MenuChoices choice = menu.read();
+
+            System.out.println("choice: " + choice);
 
             if (choice == MenuChoices.EXIT) {
                 break;
@@ -113,13 +119,12 @@ public class Bank {
 
         // serialization
         System.out.println();
-        Gson gson = new Gson();
-        String json = gson.toJson(accountJsonSerializationObjectFactory.create(accountOne));
+        String json = gsonSerializationService.serialize(accountJsonSerializationObjectFactory.create(accountOne));
         fileSystemStorage.save(json, "accounts.json");
 
         String jsonFile = fileSystemStorage.read("accounts.json");
 
-        AccountJsonSerializationObject read = gson.fromJson(jsonFile, AccountJsonSerializationObject.class);
+        AccountJsonSerializationObject read = gsonSerializationService.deserialize(jsonFile, AccountJsonSerializationObject.class);
         BaseAccount readAccount = accountDeserializer.deserialize(read);
 
         System.out.println("==== READ ACCOUNT ====");
