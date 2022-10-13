@@ -2,16 +2,14 @@ package org.delta.account;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Singleton
 public class AccountService {
-    private final List<BaseAccount> accounts  = new LinkedList<>();
+    private final Map<String, BaseAccount> accounts  = new HashMap<>();
 
     public void addAccount(BaseAccount account) {
-        this.accounts.add(account);
+        this.accounts.put(account.getId(), account);
     }
 
     public String generateAccountNumber() {
@@ -27,5 +25,13 @@ public class AccountService {
         }
 
         return sb.toString();
+    }
+
+    public BaseAccount getAccountByAccountNumber(String accountNumber) {
+        return this.accounts.get(accountNumber);
+    }
+
+    public BaseAccount[] getAccounts() {
+        return this.accounts.values().toArray(new BaseAccount[0]);
     }
 }

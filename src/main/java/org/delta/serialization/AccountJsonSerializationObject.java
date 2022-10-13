@@ -11,4 +11,12 @@ public class AccountJsonSerializationObject {
     public float balance;
     public String accountType;
     public List<CardJsonSerializationObject> cards = new LinkedList<>();
+
+    public String getId() {
+        return this.accountNumber;
+    }
+
+    public float getBalance() {
+        return this.balance;
+    }
 }

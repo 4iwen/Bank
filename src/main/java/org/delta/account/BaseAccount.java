@@ -79,4 +79,13 @@ public class BaseAccount {
     public void printBalance() {
         System.out.println("Account balance: " + this.balance);
     }
+
+    public String getId() {
+        return this.accountNumber;
+    }
+
+    public void setCards(List<BaseCard> cards) {
+        this.cards.clear();
+        this.cards.addAll(cards);
+    }
 }
