@@ -1,16 +1,17 @@
 package org.delta.menu;
 
 public enum MenuChoices {
-    HELP, DETAIL, ACCOUNTS, CREDIT, SAVING, EXIT, INVALID_CHOICE;
+    HELP, DETAIL, CREATE_PERSON, CREATE_ACCOUNT, LOAD, SAVE, EXIT, INVALID_CHOICE;
 
     public static MenuChoices convertFromMenuInput(int menuInput) {
         return switch (menuInput) {
             case 1 -> HELP;
             case 2 -> DETAIL;
-            case 3 -> ACCOUNTS;
-            case 4 -> CREDIT;
-            case 5 -> SAVING;
-            case 6 -> EXIT;
+            case 3 -> CREATE_PERSON;
+            case 4 -> CREATE_ACCOUNT;
+            case 5 -> SAVE;
+            case 6 -> LOAD;
+            case 0 -> EXIT;
             default -> INVALID_CHOICE;
         };
     }
@@ -20,9 +21,14 @@ public enum MenuChoices {
 
         System.out.println(":: HELP: 1");
         System.out.println(":: DETAIL: 2");
-        System.out.println(":: ACCOUNTS: 3");
-        System.out.println(":: CREDIT: 4");
-        System.out.println(":: SAVING: 5");
-        System.out.println(":: EXIT: 6");
+        System.out.println(":: CREATE_PERSON: 3");
+        System.out.println(":: CREATE_ACCOUNT: 4");
+        System.out.println(":: SAVE: 5");
+        System.out.println(":: LOAD: 6");
+        System.out.println(":: EXIT: 0");
+    }
+
+    public static void exit() {
+        System.out.println("Exiting...");
     }
 }

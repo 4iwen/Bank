@@ -1,11 +1,8 @@
 package org.delta;
 
-import com.google.gson.Gson;
 import org.delta.account.*;
-import org.delta.action.ActionListener;
-import org.delta.action.HelpAction;
+import org.delta.action.ActionProcessService;
 import org.delta.card.CardCreatorService;
-import org.delta.io.IO;
 import org.delta.menu.Menu;
 import org.delta.menu.MenuChoices;
 import org.delta.person.Person;
@@ -15,15 +12,13 @@ import org.delta.serialization.AccountJsonSerializationObject;
 import org.delta.serialization.AccountJsonSerializationObjectFactory;
 import org.delta.serialization.GsonSerializationService;
 import org.delta.storage.FileSystemStorage;
-import org.delta.storage.Storage;
 
 import javax.inject.Inject;
-import java.io.IOException;
+import javax.inject.Singleton;
 
 public class Bank {
-
     @Inject
-    private ActionListener actionListener;
+    ActionProcessService actionProcessService;
 
     @Inject
     private AccountInfoPrinterService accountInfoPrinterService;
@@ -55,14 +50,8 @@ public class Bank {
     @Inject
     private GsonSerializationService gsonSerializationService;
 
-    public void registerActions() {
-        this.actionListener.registerAction(MenuChoices.HELP, new HelpAction());
-        this.actionListener.registerAction(MenuChoices.DETAIL, new HelpAction());
-        this.actionListener.registerAction(MenuChoices.ACCOUNTS, new HelpAction());
-        this.actionListener.registerAction(MenuChoices.CREDIT, new HelpAction());
-        this.actionListener.registerAction(MenuChoices.SAVING, new HelpAction());
-        this.actionListener.registerAction(MenuChoices.INVALID_CHOICE, new HelpAction());
-    }
+    @Inject
+    private BankJsonData bankJsonData;
 
     public void startTerminal() {
         System.out.println("Hello from bank application!");
@@ -79,13 +68,16 @@ public class Bank {
                 break;
             }
 
-            this.actionListener.processAction(choice);
+            this.actionProcessService.processAction(choice);
         }
     }
+
 
     public void example() {
 
         Person owner = this.personFactory.createPerson("id123123", "Tomas", "Pesek");
+
+        //bankJsonData.persons.add(owner);
 
         BaseAccount accountOne = this.accountFactory.createAccount(AccountType.BASE, owner, 1000);
         BaseAccount accountTwo = this.accountFactory.createAccount(AccountType.SAVINGS, owner, 5000);
@@ -130,4 +122,5 @@ public class Bank {
         System.out.println("==== READ ACCOUNT ====");
         accountInfoPrinterService.printAccountInfo(readAccount);
     }
+
 }

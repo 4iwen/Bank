@@ -88,4 +88,12 @@ public class BaseAccount {
         this.cards.clear();
         this.cards.addAll(cards);
     }
+
+    public Object getCard() {
+        return this.cards;
+    }
+
+    public float getInterest() {
+        return 0;
+    }
 }

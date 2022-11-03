@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 @Singleton
 public class CardJsonSerializationObjectFactory {
     public CardJsonSerializationObject create(BaseCard card) {
-        CardJsonSerializationObject cardJsonSerializationObject = new CardJsonSerializationObject();
+        CardJsonSerializationObject cardJsonSerializationObject = new CardJsonSerializationObject(card);
         cardJsonSerializationObject.cardNumber = card.getCardNumber();
         cardJsonSerializationObject.expiration = card.getExpiration();
         cardJsonSerializationObject.cvc = card.getCvc();

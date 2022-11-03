@@ -1,5 +1,7 @@
 package org.delta.account;
 
+import org.delta.person.Person;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.*;
@@ -34,4 +36,5 @@ public class AccountService {
     public BaseAccount[] getAccounts() {
         return this.accounts.values().toArray(new BaseAccount[0]);
     }
+
 }

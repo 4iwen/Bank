@@ -14,8 +14,6 @@ public class Menu {
             System.out.print("What do you want: ");
             Scanner scanner = new Scanner(new InputStreamReader(System.in));
             int menuInput = scanner.nextInt();
-            System.out.println("Your choice: " + menuInput);
-
             return MenuChoices.convertFromMenuInput(menuInput);
         } catch (Exception exception) {
             System.out.println("Input is not valid");
@@ -25,5 +23,4 @@ public class Menu {
 
 
     }
-
 }

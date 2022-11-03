@@ -14,13 +14,13 @@ public class PersonService {
 
     public Person createPerson(String id, String firstName, String lastName) {
         Person person = new Person(id, firstName, lastName);
-        this.persons.put(person.getFirstName(), person);
+        this.persons.put(person.getId(), person);
         return person;
     }
 
     public Person createPerson(PersonJsonSerializationObject personJsonSerializationObject) {
         Person person = this.personFactory.createPerson(personJsonSerializationObject);
-        this.persons.put(person.getFirstName(), person);
+        this.persons.put(person.getId(), person);
         return person;
     }
 
@@ -30,5 +30,13 @@ public class PersonService {
 
     public Person findPersonById(String id) {
         return persons.get(id);
+    }
+
+    public void addPerson(Person person) {
+        this.persons.put(person.getId(), person);
+    }
+
+    public Person getPersonById(String ownerId) {
+        return this.persons.get(ownerId);
     }
 }
