@@ -35,8 +35,4 @@ public class PersonService {
     public void addPerson(Person person) {
         this.persons.put(person.getId(), person);
     }
-
-    public Person getPersonById(String ownerId) {
-        return this.persons.get(ownerId);
-    }
 }

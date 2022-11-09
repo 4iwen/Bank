@@ -26,7 +26,7 @@ public class CreateAccountAction implements Action {
         accountNumber = scanner.nextLine();
         System.out.print("Enter owner id: ");
         String ownerId = scanner.nextLine();
-        owner = personService.getPersonById(ownerId);
+        owner = personService.findPersonById(ownerId);
         System.out.print("Enter balance: ");
         balance = scanner.nextFloat();
         // create account

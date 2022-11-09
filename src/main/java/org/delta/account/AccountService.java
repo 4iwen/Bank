@@ -1,5 +1,7 @@
 package org.delta.account;
 
+import org.delta.observer.AccountCreationObserver;
+import org.delta.observer.EmailSubject;
 import org.delta.person.Person;
 
 import javax.inject.Inject;
@@ -10,8 +12,16 @@ import java.util.*;
 public class AccountService {
     private final Map<String, BaseAccount> accounts  = new HashMap<>();
 
+    EmailSubject emailSubject = new EmailSubject();
+
     public void addAccount(BaseAccount account) {
         this.accounts.put(account.getId(), account);
+
+        // Notify observers
+        AccountCreationObserver accountCreationObserver = new AccountCreationObserver();
+        emailSubject.addObserver(accountCreationObserver);
+        emailSubject.notifyObservers();
+        emailSubject.removeObserver(accountCreationObserver);
     }
 
     public String generateAccountNumber() {
