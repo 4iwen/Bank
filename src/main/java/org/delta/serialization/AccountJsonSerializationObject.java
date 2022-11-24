@@ -37,7 +37,7 @@ public class AccountJsonSerializationObject {
         this.accountType = interest.getClass().getSimpleName();
     }
 
-    public void setCard(Object card) {
+    public void setCards(List<BaseCard> card) {
         this.cards.add(new CardJsonSerializationObject((BaseCard) card));
     }
 }

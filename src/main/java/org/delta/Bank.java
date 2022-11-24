@@ -2,6 +2,11 @@ package org.delta;
 
 import org.delta.account.*;
 import org.delta.action.ActionProcessService;
+import org.delta.atm.ATMFactory;
+import org.delta.atm.ATMInfoPrinterService;
+import org.delta.atm.ATMService;
+import org.delta.atm.BaseATM;
+import org.delta.card.BaseCard;
 import org.delta.card.CardCreatorService;
 import org.delta.menu.Menu;
 import org.delta.menu.MenuChoices;
@@ -14,7 +19,6 @@ import org.delta.serialization.GsonSerializationService;
 import org.delta.storage.FileSystemStorage;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 public class Bank {
     @Inject
@@ -53,7 +57,23 @@ public class Bank {
     @Inject
     private BankJsonData bankJsonData;
 
+    @Inject
+    private QuartzScheduler quartzScheduler;
+
+    @Inject
+    private ATMFactory atmFactory;
+
+    @Inject
+    private ATMService atmService;
+
+    @Inject
+    private ATMInfoPrinterService atmInfoPrinterService;
+
     public void startTerminal() {
+
+
+        quartzScheduler.registerJobs();
+
         System.out.println("Hello from bank application!");
 
         Menu menu = new Menu();
@@ -123,4 +143,18 @@ public class Bank {
         accountInfoPrinterService.printAccountInfo(readAccount);
     }
 
+    public void atmExample() {
+        // create person, account, add a card, create an atm, insert card and withdraw money
+        Person owner = this.personFactory.createPerson("id123123", "Tomas", "Pesek");
+        BaseAccount account = this.accountFactory.createAccount(AccountType.BASE, owner, 1000);
+        this.cardCreatorService.createCardAndSetIntoAccount(account);
+
+        BaseATM atm = this.atmService.addATM(this.atmFactory.createATM("ATM 1", "Prague"));
+        BaseCard card = account.getCards().get(0);
+        this.atmService.withdraw(atm, card, 500);
+        this.atmService.insertCard(atm, card);
+        this.atmService.withdraw(atm, card, 500);
+        this.atmService.balance(atm, card);
+        this.atmService.ejectCard(atm);
+    }
 }

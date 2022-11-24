@@ -33,7 +33,7 @@ public class CreateAccountAction implements Action {
         BaseAccount account = new BaseAccount(accountNumber, owner, balance);
         // add account to account service
         accountService.addAccount(account);
-        System.out.println("Account created - owner - " + account.getOwner().getFullName() + " - id - " + account.getOwner().getId());
+        //System.out.println("Account created - owner - " + account.getOwner().getFullName() + " - id - " + account.getOwner().getId());
     }
 }
 

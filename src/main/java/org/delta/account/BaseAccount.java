@@ -77,7 +77,7 @@ public class BaseAccount {
     }
 
     public void printBalance() {
-        System.out.println("Account balance: " + this.balance);
+        System.out.println("Account " + this.accountNumber + " balance: " + this.balance);
     }
 
     public String getId() {
@@ -88,11 +88,6 @@ public class BaseAccount {
         this.cards.clear();
         this.cards.addAll(cards);
     }
-
-    public Object getCard() {
-        return this.cards;
-    }
-
     public float getInterest() {
         return 0;
     }
