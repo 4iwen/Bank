@@ -31,21 +31,6 @@ public class AccountService {
         eventBus.post(new NotifyCustomerEvent("Customer Name"));
     }
 
-    public String generateAccountNumber() {
-        Random r = new Random();
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < 3; i++) {
-            sb.append(r.nextInt(100, 999));
-
-            if (i < 2) {
-                sb.append("-");
-            }
-        }
-
-        return sb.toString();
-    }
-
     public BaseAccount getAccountByAccountNumber(String accountNumber) {
         return this.accounts.get(accountNumber);
     }

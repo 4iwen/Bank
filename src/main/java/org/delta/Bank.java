@@ -6,8 +6,7 @@ import org.delta.atm.ATMFactory;
 import org.delta.atm.ATMInfoPrinterService;
 import org.delta.atm.ATMService;
 import org.delta.atm.BaseATM;
-import org.delta.card.BaseCard;
-import org.delta.card.CardCreatorService;
+import org.delta.card.*;
 import org.delta.menu.Menu;
 import org.delta.menu.MenuChoices;
 import org.delta.person.Person;
@@ -126,7 +125,7 @@ public class Bank {
         this.accountInfoPrinterService.printAccountInfo(accountThree);
         System.out.println();
 
-        this.cardCreatorService.createCardAndSetIntoAccount(accountOne);
+        this.cardCreatorService.createCardAndSetIntoAccount(accountOne, CardType.DEBIT);
         this.accountInfoPrinterService.printAccountInfo(accountOne);
 
         // serialization
@@ -147,7 +146,7 @@ public class Bank {
         // create person, account, add a card, create an atm, insert card and withdraw money
         Person owner = this.personFactory.createPerson("id123123", "Tomas", "Pesek");
         BaseAccount account = this.accountFactory.createAccount(AccountType.BASE, owner, 1000);
-        this.cardCreatorService.createCardAndSetIntoAccount(account);
+        this.cardCreatorService.createCardAndSetIntoAccount(account, CardType.DEBIT);
 
         BaseATM atm = this.atmService.addATM(this.atmFactory.createATM("ATM 1", "Prague"));
         BaseCard card = account.getCards().get(0);
@@ -156,5 +155,29 @@ public class Bank {
         this.atmService.withdraw(atm, card, 500);
         this.atmService.balance(atm, card);
         this.atmService.ejectCard(atm);
+
+        System.out.println();
+        this.cardCreatorService.createCardAndSetIntoAccount(account, CardType.CREDIT);
+        CreditCard creditCard = (CreditCard) account.getCards().get(1);
+        this.atmService.insertCard(atm, creditCard);
+        this.atmService.withdraw(atm, creditCard, 2000);
+        this.atmService.ejectCard(atm);
+    }
+
+    @Inject
+    private CreditCardService creditCardService;
+
+    public void creditCardExample() {
+        Person owner = this.personFactory.createPerson("id123123", "Lukáš", "Bien");
+        BaseAccount account = this.accountFactory.createAccount(AccountType.BASE, owner, 1000);
+        this.cardCreatorService.createCardAndSetIntoAccount(account, CardType.CREDIT);
+
+        CreditCard card = (CreditCard)account.getCards().get(0);
+        creditCardService.withdraw(card, 6000);
+        creditCardService.withdraw(card, 1000);
+        for (int i = 0; i < 10; i++) {
+            creditCardService.interest(card);
+        }
+        creditCardService.deposit(card, 10000);
     }
 }

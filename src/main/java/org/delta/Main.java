@@ -25,5 +25,6 @@ public class Main {
         injector.getInstance(NotifyCustomerEventListener.class);
         //bank.startTerminal();
         bank.atmExample();
+        bank.creditCardExample();
     }
 }
